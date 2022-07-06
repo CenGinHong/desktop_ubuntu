@@ -33,7 +33,8 @@ RUN \
         jq \
         nano \
         psmisc \
-        tini \      
+        tini \
+	sudo \      
         wget \
         net-tools \
 	iputils-ping \
@@ -263,6 +264,8 @@ RUN \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
     && echo "tom:tom" | chpasswd
+
+COPY --chown=1000  ./src/server_file /home/student/
 
 USER 1000
 
