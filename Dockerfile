@@ -244,23 +244,35 @@ RUN \
     && ${ARG_FEATURES_USER_GROUP_OVERRIDE/*/chmod a+w /etc/passwd /etc/group} \
     && ln -s "${HOME}"/readme.md "${HOME}"/Desktop/README \
     && chmod 755 -R "${STARTUPDIR}" \
-    && "${STARTUPDIR}"/set_user_permissions.sh "${STARTUPDIR}" "${HOME}" \
+    && "${STARTUPDIR}"/set_user_permissions.sh "${STARTUPDIR}" "${HOME}" 
+
+
+# ENTRYPOINT [ "/usr/bin/tini", "--", "tail", "-f", "/dev/null" ]
+
+
+####################
+### ADDITIONAL STAGE     
+####################
+
+FROM stage_final as stage_additional
+RUN \
+    cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
+    && chmod 777 /etc/init.d/networking \
     && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
-    && adduser student sudo 
+    && adduser student sudo \
+    && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
+    && echo "tom:tom" | chpasswd
 
 USER 1000
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
-# ENTRYPOINT [ "/usr/bin/tini", "--", "tail", "-f", "/dev/null" ]
-
-     
 
 ##################
 ### METADATA STAGE
 ##################
 
-FROM stage_final as stage_metadata
+FROM stage_additional as stage_metadata
 ARG ARG_CREATED
 ARG ARG_DOCKER_TAG
 ARG ARG_VCS_REF
