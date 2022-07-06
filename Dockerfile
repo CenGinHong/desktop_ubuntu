@@ -42,7 +42,9 @@ RUN \
 	ifupdown \
 	netcat \
 	snapd \
-	nmap
+	nmap \
+	traceroute \
+	dsniff
 
 
 #################
