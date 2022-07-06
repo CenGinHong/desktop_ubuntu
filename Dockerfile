@@ -36,6 +36,7 @@ RUN \
         tini \
 	sudo \      
         wget \
+	ssh \
         net-tools \
 	iputils-ping \
 	ifupdown \
