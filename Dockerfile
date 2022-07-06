@@ -38,7 +38,6 @@ RUN \
         wget \
         net-tools \
 	iputils-ping \
-	ssh \
 	ifupdown \
 	netcat \
 	snapd \
@@ -258,6 +257,7 @@ RUN \
 FROM stage_final as stage_additional
 RUN \
     cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
+    && systemctl enable ssh \
     && chmod 777 /etc/init.d/networking \
     && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
