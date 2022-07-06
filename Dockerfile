@@ -33,9 +33,15 @@ RUN \
         jq \
         nano \
         psmisc \
-        sudo \
-        tini \
-        wget
+        tini \      
+        wget \
+        net-tools \
+	iputils-ping \
+	ssh \
+	ifupdown \
+	netcat \
+	snapd \
+	nmap
 
 
 #################
@@ -239,15 +245,16 @@ RUN \
     && ln -s "${HOME}"/readme.md "${HOME}"/Desktop/README \
     && chmod 755 -R "${STARTUPDIR}" \
     && "${STARTUPDIR}"/set_user_permissions.sh "${STARTUPDIR}" "${HOME}" \
-    && useradd -u 1000 -d /home/student -m -s /bin/bash student \
+    && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo 
 
-USER 1001
+USER 1000
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 # ENTRYPOINT [ "/usr/bin/tini", "--", "tail", "-f", "/dev/null" ]
 
+     
 
 ##################
 ### METADATA STAGE
