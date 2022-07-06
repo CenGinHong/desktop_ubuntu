@@ -178,54 +178,13 @@ EXPOSE ${NOVNC_PORT}
 ### merge_stage_vnc
 ###################
 
-FROM ${ARG_MERGE_STAGE_VNC_BASE} as merge_stage_vnc
+FROM stage_novnc as merge_stage_vnc
 ARG ARG_HEADLESS_USER_NAME
 ARG ARG_HOME
 
 ENV HOME=${ARG_HOME:-/home/${ARG_HEADLESS_USER_NAME:-headless}}
 
 WORKDIR ${HOME}
-
-
-##################
-### stage_chromium
-##################
-
-FROM merge_stage_vnc as stage_chromium
-ARG ARG_APT_NO_RECOMMENDS
-ARG ARG_CHROMIUM_VERSION
-
-ENV \
-    FEATURES_BUILD_SLIM_CHROMIUM=${ARG_APT_NO_RECOMMENDS:+1} \
-    FEATURES_CHROMIUM=1
-
-RUN \
-    --mount=type=cache,target=/var/cache/apt,from=stage_cache,source=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt,from=stage_cache,source=/var/lib/apt \
-    CHROMIUM_VERSION="${ARG_CHROMIUM_VERSION}" \
-    && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" -P /tmp \
-    && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" -P /tmp \
-    && wget -q "http://archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-browser-l10n_${CHROMIUM_VERSION}_all.deb" -P /tmp \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
-        "/tmp/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" \
-        "/tmp/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" \
-        "/tmp/chromium-browser-l10n_${CHROMIUM_VERSION}_all.deb" \
-    && rm \
-        "/tmp/chromium-codecs-ffmpeg_${CHROMIUM_VERSION}_amd64.deb" \
-        "/tmp/chromium-browser_${CHROMIUM_VERSION}_amd64.deb" \
-        "/tmp/chromium-browser-l10n_${CHROMIUM_VERSION}_all.deb" \
-    && apt-mark hold chromium-browser
-
-COPY ./xfce-chromium/src/home/Desktop "${HOME}"/Desktop/
-COPY ./xfce-chromium/src/home/readme*.md "${HOME}"/
-
-### Chromium browser requires some presets
-### Note that 'no-sandbox' flag is required, but intended for development only
-RUN \
-    echo \
-    "CHROMIUM_FLAGS='--no-sandbox --disable-gpu --user-data-dir --window-size=${VNC_RESOLUTION%x*},${VNC_RESOLUTION#*x} --window-position=0,0'" \
-    > ${HOME}/.chromium-browser.init
-
 
 #################
 ### stage_firefox
@@ -247,36 +206,11 @@ RUN \
 COPY ./xfce-firefox/src/home/Desktop "${HOME}"/Desktop/
 
 
-### ##################
-### stage_firefox_plus
-### ##################
-
-FROM stage_firefox as stage_firefox_plus
-
-ENV FEATURES_FIREFOX_PLUS=1
-
-COPY ./xfce-firefox/src/firefox.plus/home/Desktop "${HOME}"/Desktop/
-COPY ./xfce-firefox/src/firefox.plus/resources "${HOME}"/firefox.plus/
-COPY ./xfce-firefox/src/firefox.plus/resources/*.svg /usr/share/icons/hicolor/scalable/apps/
-COPY ./xfce-firefox/src/firefox.plus/home/readme*.md "${HOME}"/
-
-RUN \
-    chmod +x "${HOME}"/firefox.plus/*.sh \
-    && gtk-update-icon-cache -f /usr/share/icons/hicolor
-
-
-#######################
-### merge_stage_browser
-#######################
-
-FROM ${ARG_MERGE_STAGE_BROWSER_BASE} as merge_stage_browser
-
-
 ###############
 ### FINAL STAGE
 ###############
 
-FROM ${ARG_FINAL_STAGE_BASE} as stage_final
+FROM stage_firefox as stage_final
 ARG ARG_FEATURES_USER_GROUP_OVERRIDE
 ARG ARG_HEADLESS_USER_NAME
 ARG ARG_SUDO_PW
