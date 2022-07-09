@@ -41,7 +41,7 @@ start_vnc () {
     fi
 
     passwd_path="${HOME}"/.vnc/passwd
-    if [ ! -d "${HOME}"/.vnc ] ; then mkdir "${HOME}"/.vnc ; fi
+#    if [ ! -d "${HOME}"/.vnc ] ; then mkdir "${HOME}"/.vnc ; fi
 
     if [ "${VNC_VIEW_ONLY,,}" == "true" ]; then
         if [ -n "${_verbose}" ] ; then echo "Starting VNC server in view-only mode ..." ; fi
@@ -49,15 +49,15 @@ start_vnc () {
         echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20) | vncpasswd -f > "${passwd_path}"
     fi
 
-    echo "${VNC_PW}" | vncpasswd -f >> "${passwd_path}"
-    chmod 600 "${passwd_path}"
+#    echo "${VNC_PW}" | vncpasswd -f >> "${passwd_path}"
+#    chmod 600 "${passwd_path}"
 
     ### create VNC configuration file
-    echo "
-    rfbport=${VNC_PORT}
-    depth=${VNC_COL_DEPTH}
-    geometry=${VNC_RESOLUTION}
-    " > "${HOME}"/.vnc/config
+ #   echo "
+ #   rfbport=${VNC_PORT}
+ #   depth=${VNC_COL_DEPTH}
+ #   geometry=${VNC_RESOLUTION}
+ #   " > "${HOME}"/.vnc/config
 
     ### get container IP address
     vnc_ip=$(hostname -i)
@@ -69,10 +69,10 @@ start_vnc () {
         ### ignore the errors if not alive any more
         kill "${xinit_pid}" > /dev/null 2>&1
     fi
-    if [ -n $(compgen -G /tmp/.X*-lock) ] || [ -n $(compgen -G /tmp/.X11-unix) ] ; then
-        if [ -n "${_verbose}" ] ; then echo "Removing old VNC locks to be a re-attachable container" ; fi
-        rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "${_vnc_log}"
-    fi
+#    if [ -n $(compgen -G /tmp/.X*-lock) ] || [ -n $(compgen -G /tmp/.X11-unix) ] ; then
+#        if [ -n "${_verbose}" ] ; then echo "Removing old VNC locks to be a re-attachable container" ; fi
+#        rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "${_vnc_log}"
+#    fi
 
     if [ -n "${_verbose}" ] ; then
         echo "Starting VNC"
@@ -80,7 +80,7 @@ start_vnc () {
     fi
 
     ### VNC startup (in the background)
-    vncserver "${DISPLAY}" &> "${_vnc_log}" &
+#    vncserver "${DISPLAY}" &> "${_vnc_log}" &
 
     ### container will wait on this VNC server PID
     _wait_pid=$!
@@ -105,11 +105,11 @@ start_vnc () {
                 fi
 
                 ### noVNC startup (in the background)
-                "${NOVNC_HOME}"/utils/novnc_proxy \
-                    --vnc localhost:${VNC_PORT} \
-                    --listen ${NOVNC_PORT} \
-                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
-                    &> "${_novnc_log}" &
+#                "${NOVNC_HOME}"/utils/novnc_proxy \
+#                    --vnc localhost:${VNC_PORT} \
+#                    --listen ${NOVNC_PORT} \
+#                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
+#                    &> "${_novnc_log}" &
                 
                 if [ -n "${_verbose}" ] ; then 
                     echo "noVNC started on TCP port '${NOVNC_PORT}' ${NOVNC_HEARTBEAT:+with heartbeat ${NOVNC_HEARTBEAT} seconds}"
