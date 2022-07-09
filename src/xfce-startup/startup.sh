@@ -70,7 +70,7 @@ main() {
     fi
 
     ### create container user
-    generate_container_user
+   #  generate_container_user
 
    # if [ "$?" != "0" ] ; then
    #     echo "ERROR: Unable to generate the container user '$(id -u):$(id -g)'."
