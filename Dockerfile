@@ -191,9 +191,7 @@ FROM stage_novnc as merge_stage_vnc
 ARG ARG_HEADLESS_USER_NAME
 ARG ARG_HOME
 
-ENV HOME=${ARG_HOME:-/home/${ARG_HEADLESS_USER_NAME:-headless}}
-
-WORKDIR ${HOME}
+ENV HOME=/headless
 
 #################
 ### stage_firefox
@@ -261,7 +259,7 @@ FROM stage_final as stage_additional
 RUN \
     cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
     && chmod 777 /etc/init.d/networking \
-    && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
+    && useradd -u 1000 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
