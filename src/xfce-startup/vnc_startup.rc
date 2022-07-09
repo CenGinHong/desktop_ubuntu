@@ -105,10 +105,10 @@ start_vnc () {
                 fi
 
                 ### noVNC startup (in the background)
-#                "${NOVNC_HOME}"/utils/novnc_proxy \
-#                    --vnc localhost:${VNC_PORT} \
-#                    --listen ${NOVNC_PORT} \
-#                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
+                "${NOVNC_HOME}"/utils/novnc_proxy \
+                    --vnc localhost:${VNC_PORT} \
+                    --listen ${NOVNC_PORT} \
+                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
 #                    &> "${_novnc_log}" &
                 
                 if [ -n "${_verbose}" ] ; then 
