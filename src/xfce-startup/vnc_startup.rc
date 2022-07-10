@@ -53,11 +53,11 @@ start_vnc () {
     sudo su -c "chmod 600 "${passwd_path}"" headless
 
     ### create VNC configuration file
-    sudo su -c "echo "
+    sudo su -c "echo '
     rfbport=${VNC_PORT}
     depth=${VNC_COL_DEPTH}
     geometry=${VNC_RESOLUTION}
-    " > "${HOME}"/.vnc/config" headless
+    ' > "${HOME}"/.vnc/config" headless
 
     ### get container IP address
     vnc_ip=$(hostname -i)
@@ -71,7 +71,7 @@ start_vnc () {
     fi
     if [ -n $(compgen -G /tmp/.X*-lock) ] || [ -n $(compgen -G /tmp/.X11-unix) ] ; then
         if [ -n "${_verbose}" ] ; then echo "Removing old VNC locks to be a re-attachable container" ; fi
-        rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "${_vnc_log}"
+        sudo su -c "rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "${_vnc_log}"" headless
     fi
 
     if [ -n "${_verbose}" ] ; then
@@ -81,7 +81,7 @@ start_vnc () {
 
     ### VNC startup (in the background)
 #    vncserver "${DISPLAY}" &> "${_vnc_log}" &
-    vncserver "${DISPLAY}" &> "${_vnc_log}" &
+    sudo su -c "vncserver "${DISPLAY}" &> "${_vnc_log}" &" headless
 
     ### container will wait on this VNC server PID
     _wait_pid=$!
@@ -106,11 +106,11 @@ start_vnc () {
                 fi
 
                 ### noVNC startup (in the background)
-                "${NOVNC_HOME}"/utils/novnc_proxy \
+                sudo su -c ""${NOVNC_HOME}"/utils/novnc_proxy \
                     --vnc localhost:${VNC_PORT} \
                     --listen ${NOVNC_PORT} \
                     ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
-                    &> "${_novnc_log}" &
+                    &> "${_novnc_log}" &" headless
                 
                 if [ -n "${_verbose}" ] ; then 
                     echo "noVNC started on TCP port '${NOVNC_PORT}' ${NOVNC_HEARTBEAT:+with heartbeat ${NOVNC_HEARTBEAT} seconds}"
