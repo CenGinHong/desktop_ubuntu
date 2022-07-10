@@ -258,6 +258,7 @@ RUN \
 FROM stage_final as stage_additional
 RUN \
     cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
+    && apt remove gnome-terminal \
     && chmod 777 /etc/init.d/networking \
     && useradd -u 1000 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
