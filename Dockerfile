@@ -257,7 +257,10 @@ RUN \
 
 FROM stage_final as stage_additional
 RUN \
-    mkdir -p /headless/.vnc \
+    chmod u+w /etc/sudoers \
+    && echo "headless ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers \
+    && chmod u-w /etc/sudoers \
+    && mkdir -p /headless/.vnc \
     && chmod o+w -R /headless/.vnc \
     && mkdir -p /dockerstartup/log \
     && chmod o+w -R /dockerstartup/log \ 
