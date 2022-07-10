@@ -257,14 +257,7 @@ RUN \
 
 FROM stage_final as stage_additional
 RUN \
-    mkdir -p /headless/.vnc/passwd \
-    && mkdir -p /headless/.vnc/config \
-    && mkdir -p /dockerstartup/vnc.log \
-    && mkdir -p /dockerstartup/novnc.log \
-    && chmod -R o+w /headless/.vnc \
-    && chmod o+w /dockerstartup/vnc.log \
-    && chmod o+w /dockerstartup/novnc.log \
-    && cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
+    cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
     && chmod 777 /etc/init.d/networking \
     && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
