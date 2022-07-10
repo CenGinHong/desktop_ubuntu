@@ -80,6 +80,7 @@ start_vnc () {
     fi
 
     ### VNC startup (in the background)
+#    vncserver "${DISPLAY}" &> "${_vnc_log}" &
     vncserver "${DISPLAY}" &> "${_vnc_log}" &
 
     ### container will wait on this VNC server PID
