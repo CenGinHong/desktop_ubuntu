@@ -44,7 +44,8 @@ RUN \
 	snapd \
 	nmap \
 	traceroute \
-	dsniff
+	dsniff \
+        john
 
 
 #################
@@ -260,7 +261,7 @@ RUN \
     cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
     && apt remove gnome-terminal -y \
     && chmod 777 /etc/init.d/networking \
-    && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
+    && useradd -u 1000 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
@@ -268,7 +269,7 @@ RUN \
 
 COPY --chown=1000  ./src/server_file /home/student/
 
-USER 1000
+USER 1001
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
