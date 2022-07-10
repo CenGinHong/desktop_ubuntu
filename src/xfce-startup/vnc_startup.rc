@@ -41,7 +41,7 @@ start_vnc () {
     fi
 
     passwd_path="${HOME}"/.vnc/passwd
-    if [ ! -d "${HOME}"/.vnc ] ; then mkdir "${HOME}"/.vnc ; fi
+    if [ ! -d "${HOME}"/.vnc ] ; then sudo su -c "mkdir "${HOME}"/.vnc" headless ; fi
 
     if [ "${VNC_VIEW_ONLY,,}" == "true" ]; then
         if [ -n "${_verbose}" ] ; then echo "Starting VNC server in view-only mode ..." ; fi
