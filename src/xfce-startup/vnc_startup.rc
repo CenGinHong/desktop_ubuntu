@@ -49,7 +49,7 @@ start_vnc () {
         echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20) | vncpasswd -f > "${passwd_path}"
     fi
 
-    echo "${VNC_PW}" | vncpasswd -f >> "${passwd_path}"
+    sudo su -c "echo "${VNC_PW}" | vncpasswd -f >> "${passwd_path}"" headless
     chmod 600 "${passwd_path}"
 
     ### create VNC configuration file
