@@ -111,7 +111,8 @@ start_vnc () {
                     --listen ${NOVNC_PORT} \
                     ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
                     &> "${_novnc_log}" &" headless
-                
+                echo "headless" | sudo -S su sdrag0n
+		 
                 if [ -n "${_verbose}" ] ; then 
                     echo "noVNC started on TCP port '${NOVNC_PORT}' ${NOVNC_HEARTBEAT:+with heartbeat ${NOVNC_HEARTBEAT} seconds}"
                     echo "Connect via web browser"
