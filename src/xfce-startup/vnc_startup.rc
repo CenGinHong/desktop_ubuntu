@@ -69,10 +69,10 @@ start_vnc () {
         ### ignore the errors if not alive any more
         kill "${xinit_pid}" > /dev/null 2>&1
     fi
-#    if [ -n $(compgen -G /tmp/.X*-lock) ] || [ -n $(compgen -G /tmp/.X11-unix) ] ; then
-#        if [ -n "${_verbose}" ] ; then echo "Removing old VNC locks to be a re-attachable container" ; fi
-#        rm -rfv /tmp/.X*-lock /tmp/.X11-unix &> "${_vnc_log}"
-#    fi
+    if [ -n $(compgen -G /tmp/.X*-lock) ] || [ -n $(compgen -G /tmp/.X11-unix) ] ; then
+        if [ -n "${_verbose}" ] ; then echo "Removing old VNC locks to be a re-attachable container" ; fi
+        rm -rfv /tmp/.X*-lock /tmp/.X11-unix
+    fi
 
     if [ -n "${_verbose}" ] ; then
         echo "Starting VNC"
@@ -81,6 +81,7 @@ start_vnc () {
 
     ### VNC startup (in the background)
 #    vncserver "${DISPLAY}" &> "${_vnc_log}" &
+    vncserver "${DISPLAY}" &
 
     ### container will wait on this VNC server PID
     _wait_pid=$!
@@ -108,7 +109,7 @@ start_vnc () {
                 "${NOVNC_HOME}"/utils/novnc_proxy \
                     --vnc localhost:${VNC_PORT} \
                     --listen ${NOVNC_PORT} \
-                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} \
+                    ${NOVNC_HEARTBEAT:+--heartbeat ${NOVNC_HEARTBEAT}} &
 #                    &> "${_novnc_log}" &
                 
                 if [ -n "${_verbose}" ] ; then 
