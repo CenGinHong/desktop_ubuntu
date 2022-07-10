@@ -132,7 +132,7 @@ main() {
     ### option '--wait' is purely because of the parser
 
     ### this handles also '--skip-vnc' and '--skip-novnc' options
-    start_vnc
+    sudo -c "start_vnc" headless
 
     ### command array expands to all elements quoted as a whole
     execute_command "${_arg_command[*]}"
