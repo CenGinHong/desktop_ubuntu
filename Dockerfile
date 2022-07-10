@@ -259,6 +259,8 @@ FROM stage_final as stage_additional
 RUN \
     mkdir -p /headless/.vnc \
     && chmod o+w -R /headless/.vnc \
+    && mkdir -p /dockerstartup/log \
+    && chmod o+w -R /dockerstartup/log \
     && cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
     && chmod 777 /etc/init.d/networking \
     && useradd -u 1000 -d /home/student -m -s /bin/bash student \

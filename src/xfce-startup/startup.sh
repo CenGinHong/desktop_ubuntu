@@ -155,9 +155,9 @@ if [ -z "${DEBUGGER}" ] ; then
     : ${HOME?} ${STARTUPDIR?}
 fi
 
-declare _novnc_log="${STARTUPDIR}"/novnc.log
+declare _novnc_log="${STARTUPDIR}"/log/novnc.log
 declare _verbose=""
-declare _vnc_log="${STARTUPDIR}"/vnc.log
+declare _vnc_log="${STARTUPDIR}"/log/vnc.log
 declare _wait_pid=""
 
 ### option '--skip-startup'
