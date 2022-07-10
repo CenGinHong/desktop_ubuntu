@@ -50,14 +50,14 @@ start_vnc () {
     fi
 
     sudo su -c "echo "${VNC_PW}" | vncpasswd -f >> "${passwd_path}"" headless
-    chmod 600 "${passwd_path}"
+    sudo su -c "chmod 600 "${passwd_path}"" headless
 
     ### create VNC configuration file
-    echo "
+    sudo su -c "echo "
     rfbport=${VNC_PORT}
     depth=${VNC_COL_DEPTH}
     geometry=${VNC_RESOLUTION}
-    " > "${HOME}"/.vnc/config
+    " > "${HOME}"/.vnc/config" headless
 
     ### get container IP address
     vnc_ip=$(hostname -i)
