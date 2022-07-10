@@ -70,15 +70,15 @@ main() {
     fi
 
     ### create container user
-     generate_container_user
+#     generate_container_user
 
-    if [ "$?" != "0" ] ; then
-        echo "ERROR: Unable to generate the container user '$(id -u):$(id -g)'."
-        if [ $(id -g) -ne 0 ] ; then
-            echo -e "HINT: You have overriden also the user's group ID. Be sure to use an image \nthat has been built with the build argument ARG_FEATURES_USER_GROUP_OVERRIDE."
-        fi
-        cleanup
-    fi
+#    if [ "$?" != "0" ] ; then
+#        echo "ERROR: Unable to generate the container user '$(id -u):$(id -g)'."
+#        if [ $(id -g) -ne 0 ] ; then
+#            echo -e "HINT: You have overriden also the user's group ID. Be sure to use an image \nthat has been built with the build argument ARG_FEATURES_USER_GROUP_OVERRIDE."
+#        fi
+#        cleanup
+#    fi
 
     ### options '--version-sticker' and '--version-sticker-verbose'
     if [ "${_arg_version_sticker}" == "on" ] || [ "${_arg_version_sticker_verbose}" == "on" ] ; then

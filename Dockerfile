@@ -257,9 +257,11 @@ RUN \
 
 FROM stage_final as stage_additional
 RUN \
-    cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
+    mkdir -p /headless/.vnc \
+    chmod -R o+w /headless/.vnc \
+    && cp ${NOVNC_HOME}/vnc.html ${NOVNC_HOME}/index.html \
     && chmod 777 /etc/init.d/networking \
-    && useradd -u 1000 -g 0 -d /home/student -m -s /bin/bash student \
+    && useradd -u 1000 -d /home/student -m -s /bin/bash student \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
@@ -270,8 +272,6 @@ COPY --chown=1000  ./src/server_file /home/student/
 USER 1000
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
-
-USER 1002
 
 ##################
 ### METADATA STAGE
