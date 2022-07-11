@@ -33,7 +33,7 @@ RUN \
         jq \
         nano \
         psmisc \
-        tini \
+#        tini \
 	sudo \      
         wget \
 	ssh \
@@ -286,6 +286,7 @@ RUN \
 USER 1001
 WORKDIR /home/student
 
+# ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
 ##################
