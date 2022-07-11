@@ -272,7 +272,7 @@ RUN \
 
 COPY --chown=1000  ./src/server_file /home/student/
 
-USER 1001
+USER 1000
 
 RUN \
     mkdir -p /home/student/john-the-ripper \
@@ -281,6 +281,8 @@ RUN \
     && cd /home/student/john-the-ripper/john/src \
     && ./configure && make -s clean && make -sj4 \
     && mkdir -p /home/student/Desktop  
+
+USER 1001
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
