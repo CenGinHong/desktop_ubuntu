@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:experimental
 
 ARG BASEIMAGE=ubuntu
-ARG BASETAG=20.04
+ARG BASETAG=18.04
 
 ARG ARG_MERGE_STAGE_VNC_BASE=stage_vnc
 ARG ARG_MERGE_STAGE_BROWSER_BASE=merge_stage_vnc
