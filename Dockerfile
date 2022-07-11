@@ -268,16 +268,19 @@ RUN \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
-    && echo "tom:tom" | chpasswd \
-    && mkdir -p ~/src \
-    && cd ~/src \
-    && git clone https://github.com/openwall/john -b bleeding-jumbo john \
-    && cd ~/src/john/src \
-    && ./configure && make -s clean && make -sj4
+    && echo "tom:tom" | chpasswd
 
 COPY --chown=1000  ./src/server_file /home/student/
 
 USER 1001
+
+RUN \
+    mkdir -p /home/student/john-the-ripper \
+    && cd /home/student/john-the-ripper \
+    && git clone https://github.com/openwall/john -b bleeding-jumbo john \
+    && cd /home/student/john-the-ripper/john/src \
+    && ./configure && make -s clean && make -sj4 \
+    && mkdir -p /home/student/Desktop  
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
