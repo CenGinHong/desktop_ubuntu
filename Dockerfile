@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:experimental
 
 ARG BASEIMAGE=ubuntu
-ARG BASETAG=18.04
+ARG BASETAG=20.04
 
 ARG ARG_MERGE_STAGE_VNC_BASE=stage_vnc
 ARG ARG_MERGE_STAGE_BROWSER_BASE=merge_stage_vnc
@@ -33,7 +33,7 @@ RUN \
         jq \
         nano \
         psmisc \
-#        tini \
+        tini \
 	sudo \      
         wget \
 	ssh \
@@ -111,7 +111,7 @@ RUN \
     DEBIAN_FRONTEND=noninteractive apt-get install -y ${ARG_APT_NO_RECOMMENDS:+--no-install-recommends} \
         mousepad \
         python3 \
-#        systemctl \
+        systemctl \
         ${ARG_FEATURES_SCREENSHOOTING:+ristretto xfce4-screenshooter} \
         ${ARG_FEATURES_THUMBNAILING:+tumbler}
 
@@ -283,8 +283,7 @@ RUN \
 USER 1001
 WORKDIR /home/student
 
-#ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
-ENTRYPOINT [ "/bin/bash", "--", "/dockerstartup/startup.sh" ]
+ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
 ##################
 ### METADATA STAGE
