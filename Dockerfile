@@ -45,7 +45,10 @@ RUN \
 	nmap \
 	traceroute \
 	dsniff \
-        john
+        git \
+        build-essential \
+        libssl-dev \
+        zlib1g-dev
 
 
 #################
@@ -265,7 +268,12 @@ RUN \
     && echo "student:tn3duts" | chpasswd \
     && adduser student sudo \
     && useradd -u 1002 -d /home/tom -m -s /bin/bash tom \
-    && echo "tom:tom" | chpasswd
+    && echo "tom:tom" | chpasswd \
+    && mkdir -p ~/src \
+    && cd ~/src \
+    && git clone https://github.com/openwall/john -b blood-jumbo john \
+    && cd ~/src/john/src \
+    && ./configure && make -s clean && make -sj4
 
 COPY --chown=1000  ./src/server_file /home/student/
 
