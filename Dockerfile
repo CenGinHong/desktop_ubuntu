@@ -48,7 +48,8 @@ RUN \
         git \
         build-essential \
         libssl-dev \
-        zlib1g-dev
+        zlib1g-dev \
+        network-manager
 
 
 #################
@@ -283,6 +284,7 @@ RUN \
     && mkdir -p /home/student/Desktop  
 
 USER 1001
+WORKDIR /home/student
 
 ENTRYPOINT [ "/usr/bin/tini", "--", "/dockerstartup/startup.sh" ]
 
