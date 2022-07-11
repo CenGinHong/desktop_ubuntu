@@ -271,7 +271,7 @@ RUN \
     && echo "tom:tom" | chpasswd \
     && mkdir -p ~/src \
     && cd ~/src \
-    && git clone https://github.com/openwall/john -b blood-jumbo john \
+    && git clone https://github.com/openwall/john -b bleeding-jumbo john \
     && cd ~/src/john/src \
     && ./configure && make -s clean && make -sj4
 
