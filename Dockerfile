@@ -279,6 +279,7 @@ RUN \
     && cd /home/student/john-the-ripper/john/src \
     && ./configure && make -s clean && make -sj4 \
     && mkdir -p /home/student/Desktop \
+    && mkdir -p /home/student/Public/forstudents/{jerry,ken} \
     && cd /home/student \
     && echo "alias john=/home/student/john-the-ripper/john/run/john" > .bash_aliases
 
