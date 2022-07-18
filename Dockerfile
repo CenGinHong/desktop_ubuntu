@@ -278,7 +278,9 @@ RUN \
     && git clone https://github.com/openwall/john -b bleeding-jumbo john \
     && cd /home/student/john-the-ripper/john/src \
     && ./configure && make -s clean && make -sj4 \
-    && mkdir -p /home/student/Desktop  
+    && mkdir -p /home/student/Desktop \
+    && cd /home/student \
+    && echo "alias john=/home/student/john-the-ripper/john/run/john" > .bash_aliases
 
 USER 1001
 WORKDIR /home/student
