@@ -41,15 +41,14 @@ RUN \
 	iputils-ping \
 	ifupdown \
 	netcat \
-	snapd \
+	network-manager \
 	nmap \
 	traceroute \
 	dsniff \
         git \
         build-essential \
         libssl-dev \
-        zlib1g-dev \
-        network-manager
+        zlib1g-dev 
 
 
 #################
